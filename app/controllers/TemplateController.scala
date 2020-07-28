@@ -13,12 +13,17 @@ class TemplateController @Inject()(cc: ControllerComponents,
                                    csvReader: CsvReader) extends AbstractController(cc) with I18nSupport {
 
   def uploadTemplate = Action(parse.multipartFormData) { request =>
+
     request.body
       .file("template")
       .map { template =>
         val templateId = UUID.randomUUID().toString
-        // TODO: modify this to something more scalable like a s3 bucket and move path to constant o config
-        template.ref.copyTo(Paths.get(s"./public/reports/$templateId.html"), replace = true)
+        // TODO: modify this to something more scalable like a s3 bucket
+        //  and move path to constant o config and use a template id
+        template.ref.copyTo(
+          Paths.get(s"./$templateId.html"),
+          replace = true)
+
         Ok(views.html.variablesupload(templateId))
       }
       .getOrElse {
@@ -32,8 +37,8 @@ class TemplateController @Inject()(cc: ControllerComponents,
     request.body
       .file("variables")
       .map { template =>
-        template.ref.copyTo(Paths.get(s"./public/reports/$templateId.csv"), replace = true)
-        Ok("")
+        template.ref.copyTo(Paths.get(s"./$templateId.csv"), replace = true)
+        Ok(templateId)
       }
       .getOrElse {
         BadRequest("Could not upload file")

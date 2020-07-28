@@ -10,6 +10,7 @@ class CsvController @Inject()(cc: ControllerComponents,
 
   def getCsvTemplate: Action[AnyContent] = Action {
     // TODO: move this to global file with constants or config
+    // Path for file upload val path = "./target/universal/stage/1.csv"
     val path = "./public/templates/csvTemplate.csv"
     csvReader.readFromFile(path) match {
       case Some(lines) => Ok(s"all good: ${lines}")
