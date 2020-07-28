@@ -1,0 +1,9 @@
+@helper.form(action = routes.TemplateController.uploadTemplate, Symbol("enctype") -> "multipart/form-data") {
+    <h1>Manipulación de templates</h1>
+    <p>Sube el template al que quieres modificar el contenido</p>
+    <input type="file" name="template">
+    <p>
+        <input type="submit">
+    </p>
+
+}
