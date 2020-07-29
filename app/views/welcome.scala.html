@@ -2,33 +2,38 @@
 
 @defining(play.core.PlayVersion.current) { version =>
 
-<section id="top">
-  <div class="wrapper">
-    <h1><a href="https://playframework.com/documentation/@version/Home">@message</a></h1>
-  </div>
-</section>
+    <section id="top">
+        <div class="wrapper">
+            <h1>@message</h1>
+        </div>
+    </section>
 
-<div id="content" class="wrapper doc">
-<article>
+    <div id="content" class="wrapper doc">
+        <article>
 
-  <h1>Fira Tools</h1>
+            <h1>Modify mail templates</h1>
 
-  <blockquote>
-    <p>
-      You’re using Play @version
-    </p>
-  </blockquote>
-    @* TODO: move this to a proper documentation system *@
-    <p>
-        <a href="@routes.HealthCheckController.state">Click here to verify the system state</a>
-    </p>
-    <p>
-        <a href="@routes.CsvController.getCsvTemplate">Click here to obtain csv file template</a>
-    </p>
-    <p>
-      <a href="@routes.TemplateController.getView">Click here to upload file</a>
-    </p>
+            <blockquote>
+                <p>
+                    You will need two files, one html with the template and one csv file with the variables that want to be replace.
+                    The csv file headers should match with the variables on the html file.
+                </p>
+            </blockquote>
+            @* TODO: move this to a proper documentation system *@
+            <p>
+                <a href="@routes.TemplateController.getView">Click here to start</a>
+            </p>
+            <p>
+                <a href="@routes.Assets.versioned("templates/csvTemplate.csv")">Click here to obtain the CSV template</a>
+            </p>
+            <p>
+                <a href="@routes.Assets.versioned("templates/firaTemplate.html")">Click here to obtain the HTML template</a>
+            </p>
+            <p>
+                <a href="@routes.HealthCheckController.state">Click here to verify the system state</a>
+            </p>
 
-</article>
-</div>
+
+        </article>
+    </div>
 }

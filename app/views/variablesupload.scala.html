@@ -1,11 +1,11 @@
 @(templateId: String)
 
 @helper.form(action = routes.TemplateController.uploadVariables(templateId), Symbol("enctype") -> "multipart/form-data") {
-    <h1>Manipulación de templates</h1>
-    <p>Sube las variables con las que quieres remplezar el template</p>
+    <h1>Modify mail templates</h1>
+    <p>Upload csv file with the values that you want to replace on the template</p>
     <input type="file" name="variables">
     <p>
-        <input type="submit">
+        <input type="submit" value="Click here to upload">
     </p>
 
 
