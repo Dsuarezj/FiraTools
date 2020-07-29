@@ -29,7 +29,7 @@ class TemplateHandler @Inject()(fileReader: FileReader) {
   }
 
   def readTemplate(templateId: String): String = {
-    val path = s"./target/universal/stage/share/$templateId.html"
+    val path = s"./target/universal/stage/$templateId.html"
     fileReader.readTextFile(path) match {
       case Some(lines) => lines
       case _ => fileReader.readTextFile(s"./share/$templateId.html") match {
