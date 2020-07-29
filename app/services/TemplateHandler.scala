@@ -40,10 +40,10 @@ class TemplateHandler @Inject()(fileReader: FileReader) {
   }
 
   def readVariables(templateId: String): List[String] = {
-    val path = s"./target/universal/stage/share/$templateId.csv"
+    val path = s"./target/universal/stage/$templateId.csv"
     fileReader.readCsvFile(path) match {
       case Some(lines) => lines
-      case _ => fileReader.readCsvFile(s"./share/$templateId.csv") match {
+      case _ => fileReader.readCsvFile(s"./$templateId.csv") match {
         case Some(lines) => lines
         case _ => List()
       }

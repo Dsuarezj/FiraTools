@@ -21,7 +21,7 @@ class TemplateController @Inject()(cc: ControllerComponents,
         // TODO: modify this to something more scalable like a s3 bucket
         //  and move path to constant o config and use a template id
         template.ref.copyTo(
-          Paths.get(s"./share/$templateId.html"),
+          Paths.get(s"./$templateId.html"),
           replace = true)
 
         Ok(views.html.variablesupload(templateId))
@@ -37,7 +37,7 @@ class TemplateController @Inject()(cc: ControllerComponents,
     request.body
       .file("variables")
       .map { template =>
-        template.ref.copyTo(Paths.get(s"./share/$templateId.csv"), replace = true)
+        template.ref.copyTo(Paths.get(s"./$templateId.csv"), replace = true)
         Ok(views.html.generateFiles(templateId))
       }
       .getOrElse {
