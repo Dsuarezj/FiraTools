@@ -7,10 +7,12 @@ import javax.inject._
 import play.api.i18n.I18nSupport
 import play.api.libs.Files
 import play.api.mvc._
-import services.{FileReader, TemplateHandler}
+import services.{FileManager, TemplateHandler}
+
+import scala.concurrent.ExecutionContext
 
 class TemplateController @Inject()(cc: ControllerComponents,
-                                   templateHandler: TemplateHandler) extends AbstractController(cc) with I18nSupport {
+                                   templateHandler: TemplateHandler)(implicit ec: ExecutionContext) extends AbstractController(cc) with I18nSupport {
 
   def uploadTemplate = Action(parse.multipartFormData) { request =>
 
@@ -50,10 +52,15 @@ class TemplateController @Inject()(cc: ControllerComponents,
   }
 
   def generateFiles(templateId: String) = Action {
-    templateHandler.getFilesUsingVariable(templateId) match {
-      case lines => Ok(s"$lines")
-      case _ => BadRequest("empty file")
-    }
+    val file =  templateHandler.createFilesAndGetZipPath(templateId)
+    Ok.sendFile(
+        content = new java.io.File(s"./$file"),
+        fileName = _ => Some(s"./$file")
+      )
+  }
+
+  def previewFiles(templateId: String) = Action {
+    Ok(templateHandler.getPreviewOfFiles(templateId))
   }
 
 }

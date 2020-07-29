@@ -1,11 +1,16 @@
 @(templateId: String)
 
-@helper.form(action = routes.TemplateController.generateFiles(templateId), Symbol("enctype") -> "multipart/form-data") {
+@helper.form(action = routes.TemplateController.previewFiles(templateId), Symbol("enctype") -> "multipart/form-data") {
     <h1>Modify mail templates</h1>
-    <p>Last step to generate files base</p>
+    <p>Preview the changes on the template</p>
     <p>
-        <input type="submit" value="Click here to generate files">
+        <input type="submit" value="Click here to view a preview">
     </p>
+        <div>*************************************</div>
+}
 
-
+@helper.form(action = routes.TemplateController.generateFiles(templateId), Symbol("enctype") -> "multipart/form-data") {
+    <p>
+        <input type="submit" value="Click here to download files">
+    </p>
 }
