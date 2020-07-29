@@ -48,12 +48,12 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
       }
       val emailWithName = substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))
       val emailId = substitutions.getOrElse(validHeaders.head, "")
-      val createdEmailPath = s"./$emailId-$templateId.html"
+      val createdEmailPath = s"./target/universal/stage/$emailId-$templateId.html"
       filesPath += createdEmailPath
       fileManager.writeFile(createdEmailPath, emailWithName)
     })
 
-    val zipPath = s"./$templateId.zip"
+    val zipPath = s"/tmp/$templateId.zip"
     fileManager.zip(zipPath, filesPath)
     zipPath
   }
