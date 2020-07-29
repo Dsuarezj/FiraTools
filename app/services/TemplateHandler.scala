@@ -40,15 +40,17 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
     var substitutions = collection.mutable.Map[String, String]()
 
     var filesPath = new ListBuffer[String]()
+    var tagUniqueFile = 0
 
     variables.foreach(variable => {
         variable.split(",").zipWithIndex.foreach{ case (item, index) => {
           substitutions += (validHeaders(index) -> item)
         }
       }
+      tagUniqueFile = tagUniqueFile + 1
       val emailWithName = substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))
       val emailId = substitutions.getOrElse(validHeaders.head, "")
-      val createdEmailPath = s"./target/universal/stage/$emailId-$templateId.html"
+      val createdEmailPath = s"./target/universal/stage/$emailId-$tagUniqueFile-$templateId.html"
       filesPath += createdEmailPath
       fileManager.writeFile(createdEmailPath, emailWithName)
     })
