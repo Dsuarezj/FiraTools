@@ -54,8 +54,8 @@ class TemplateController @Inject()(cc: ControllerComponents,
   def generateFiles(templateId: String) = Action {
     val file =  templateHandler.createFilesAndGetZipPath(templateId)
     Ok.sendFile(
-        content = new java.io.File(s"./$file"),
-        fileName = _ => Some(s"./$file")
+        content = new java.io.File(file),
+        fileName = _ => Some(file)
       )
   }
 
