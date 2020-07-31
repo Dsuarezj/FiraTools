@@ -7,6 +7,11 @@ GET         /                                                             contro
 
 GET         /healthCheck                                                  controllers.HealthCheckController.state
 
+GET         /whatsAppsSender/home                                         controllers.WhatsappController.getView
+
++nocsrf
+POST        /whatsAppsSender/generateScript                               controllers.WhatsappController.generateScript()
+
 +nocsrf
 POST        /changeVariablesOfTemplate/uploadTemplate                     controllers.TemplateController.uploadTemplate
 

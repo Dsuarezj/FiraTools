@@ -1,0 +1,11 @@
+@helper.form(action = routes.WhatsappController.generateScript, Symbol("enctype") -> "multipart/form-data") {
+    <h1>Send massive whatsapp message</h1>
+    <p>Enter the message that you want to send, remember to include the word NAME and/or FREE_TEXT if you want personalize message</p>
+    <input type="text" name="message">
+    <p>Upload csv file with phone number, name, article</p>
+    <input type="file" name="userInfo">
+    <p>
+        <input type="submit" value="Click here to upload">
+    </p>
+
+}

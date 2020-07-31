@@ -11,10 +11,11 @@
     <div id="content" class="wrapper doc">
         <article>
 
-            <h1>Modify mail templates</h1>
+            <h2>Modify mail templates</h2>
 
             <blockquote>
                 <p>
+                    This will modify any html template with the values of the csv file and generate new html files
                     You will need two files, one html with the template and one csv file with the variables that want to be replace.
                     The csv file headers should match with the variables on the html file.
                 </p>
@@ -33,6 +34,31 @@
                 <a href="@routes.HealthCheckController.state">Click here to verify the system state</a>
             </p>
 
+            <h2>Send massive whatsapp message</h2>
+
+            <blockquote>
+                <p>
+                    This will generate a script that will send massive whatsapp message every ~15 seconds.
+                </p>
+                <p>
+                    You will need one file: a csv file with the user information
+
+                    (PHONE_NUMBER, NAME, FREE_TEXT).
+                </p>
+                <p>
+                    The csv file should not have headers and the message should include the keys NAME and FREE_TEXT if you want to replace text.
+                </p>
+
+            </blockquote>
+            <p>
+                <a href="@routes.WhatsappController.getView">Click here to start</a>
+            </p>
+            <p>
+                <a href="@routes.Assets.versioned("templates/whatsappTemplate.csv")">Click here to obtain the CSV template</a>
+            </p>
+            <p>
+                <a href="@routes.Assets.versioned("templates/whatsappMessage.html")">Click here to obtain a sample of a message</a>
+            </p>
 
         </article>
     </div>

@@ -1,8 +1,6 @@
 package services
 
-import java.io.{BufferedInputStream, FileInputStream}
-import java.nio.file.{Files, Path, Paths}
-
+import Utils.FileManager
 import javax.inject.Inject
 
 import scala.collection.mutable.ListBuffer
@@ -10,7 +8,6 @@ import scala.collection.mutable.ListBuffer
 
 class TemplateHandler @Inject()(fileManager: FileManager) {
 
-  // TODO: depending of the deploy used different path, the one with target is to work on heroku
   def getPreviewOfFiles(templateId: String): String = {
     val variables = readVariables(templateId)
     val headers = variables.head.split(",").map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
@@ -61,6 +58,7 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
   }
 
   def readTemplate(templateId: String): String = {
+    // TODO: depending of the deploy used different path, the one with target is to work on heroku
     val path = s"./target/universal/stage/$templateId.html"
     fileManager.readTextFile(path) match {
       case Some(lines) => lines
@@ -73,9 +71,9 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
 
   def readVariables(templateId: String): List[String] = {
     val path = s"./target/universal/stage/$templateId.csv"
-    fileManager.readCsvFile(path) match {
+    fileManager.readCsvFileFromPath(path) match {
       case Some(lines) => lines
-      case _ => fileManager.readCsvFile(s"./$templateId.csv") match {
+      case _ => fileManager.readCsvFileFromPath(s"./$templateId.csv") match {
         case Some(lines) => lines
         case _ => List()
       }

@@ -7,7 +7,7 @@ import javax.inject._
 import play.api.i18n.I18nSupport
 import play.api.libs.Files
 import play.api.mvc._
-import services.{FileManager, TemplateHandler}
+import services.TemplateHandler
 
 import scala.concurrent.ExecutionContext
 
