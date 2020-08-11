@@ -48,6 +48,7 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |let urlList = [""".stripMargin + whatsappLinks.mkString + """]
         |
         |let win = window.open(urlList[0], "_blank")
+        |console.log("Enviando a....." + urlList[0])
         |setTimeout(function(){
         |  eventFire(win.document.querySelector('span[data-icon="send"]'), 'click');
         |}, 4000);
