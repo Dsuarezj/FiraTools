@@ -16,12 +16,12 @@ class WhatsappController @Inject()(cc: ControllerComponents,
 
   def generateScript() = Action(parse.multipartFormData) { request =>
 
-    val messageTemplate = request.body.dataParts.head._2.head
-
+    val messageTemplate = request.body.dataParts.getOrElse("messageTemplate", Seq("")).head
+    val hasToFixNumbers = request.body.dataParts.getOrElse("fixNumber", Seq("")).head
     request.body
-      .file("userInfo")
+      .file("messageValues")
       .map { template =>
-        Ok(whatsappHandler.generateScript(template.ref, messageTemplate))
+        Ok(whatsappHandler.generateScript(template.ref, messageTemplate, hasToFixNumbers))
       }
       .getOrElse {
         BadRequest("Could not upload file")

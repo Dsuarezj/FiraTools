@@ -1,11 +1,18 @@
 @helper.form(action = routes.WhatsappController.generateScript, Symbol("enctype") -> "multipart/form-data") {
     <h1>Send massive whatsapp message</h1>
-    <p>Enter the message that you want to send, remember to include the word NAME and/or FREE_TEXT if you want personalize message</p>
-    <input type="text" name="message">
-    <p>Upload csv file with phone number, name, article</p>
-    <input type="file" name="userInfo">
+    <p>Enter the message that you want to send, remember to include the word NAME and/or ANY_TEXT if you want personalize message</p>
+    <input type="text" name="messageTemplate">
+    <p>Upload csv file that has 3 columns: phone_number, name, any_text_to_replace</p>
+    <div>
+        <input type="file" name="messageValues">
+    </div>
+        &nbsp;
+
+    <div>
+        Select this option if you want us to fix the number for you. Available only for Ecuadorian Numbers <input type="checkbox" name="fixNumber">
+    </div>
     <p>
-        <input type="submit" value="Click here to upload">
+        <input type="submit" value="Click here to finish">
     </p>
 
 }

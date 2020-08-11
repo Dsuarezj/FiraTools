@@ -1,6 +1,6 @@
 package services
 
-import Utils.FileManager
+import utils.FileManager
 import javax.inject.Inject
 
 import scala.collection.mutable.ListBuffer
