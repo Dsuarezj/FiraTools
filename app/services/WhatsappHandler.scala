@@ -51,14 +51,14 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |console.log("Enviando a....." + urlList[0])
         |setTimeout(function(){
         |  eventFire(win.document.querySelector('span[data-icon="send"]'), 'click');
-        |}, 4000);
+        |}, 10000);
         |let i = 1;
         |let int = setInterval(() => {
         |  console.log("Enviando a....." + urlList[i])
         |  win.location = urlList[i];
         |  setTimeout(function(){
         |    eventFire(win.document.querySelector('span[data-icon="send"]'), 'click');
-        |  }, 6000);
+        |  }, 10000);
         |  if (i++ >= urlList.length) clearInterval(int)
         |}, 10000)
         |
