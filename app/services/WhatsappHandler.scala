@@ -32,7 +32,9 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |5. Press Enter and let the magic do the work for you 🎩🐇
         |
         |Note: Whatsapp's tabs will open and start sending message, you don't have to click anything or press enter, just seat and watch.
-        |You can find the result of the script on the console you open
+        |You can find the result of the script on the console you open.
+        |
+        |The script will take random time before sending the message to avoid account lockout from whatsapp.
         |
         |
         |****************** Script ******************
@@ -58,9 +60,9 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |  win.location = urlList[i];
         |  setTimeout(function(){
         |    eventFire(win.document.querySelector('span[data-icon="send"]'), 'click');
-        |  }, 10000);
+        |  }, 10000 + Math.round(Math.random() * 10000));
         |  if (i++ >= urlList.length) clearInterval(int)
-        |}, 10000)
+        |}, 22000 + Math.round(Math.random() * 20000))
         |
         |
         |
