@@ -45,25 +45,25 @@ class PhoneNumberUtilTest extends PlaySpec {
       val userPhoneNumber = s"0$number"
       val phoneNumberUtil = new PhoneNumberUtil()
 
-      val formattedNumber = phoneNumberUtil.getNumberWithOutInitialZeroOrPlus(userPhoneNumber)
+      val formattedNumber = phoneNumberUtil.getCleanNumberAndRemoveZero(userPhoneNumber)
 
       formattedNumber mustBe s"$number"
     }
-    "remove plus if number start with 0" in {
+    "remove non digit characters from number" in {
       val number = Random.nextInt(999999999)
-      val userPhoneNumber = s"+$number"
+      val userPhoneNumber = s"+$number -$number."
       val phoneNumberUtil = new PhoneNumberUtil()
 
-      val formattedNumber = phoneNumberUtil.getNumberWithOutInitialZeroOrPlus(userPhoneNumber)
+      val formattedNumber = phoneNumberUtil.getCleanNumberAndRemoveZero(userPhoneNumber)
 
-      formattedNumber mustBe s"$number"
+      formattedNumber mustBe s"$number$number"
     }
     "maintain the zero if they are not at the begin" in {
       val number = Random.nextInt(9999)
       val userPhoneNumber = s"$number 0$number"
       val phoneNumberUtil = new PhoneNumberUtil()
 
-      val formattedNumber = phoneNumberUtil.getNumberWithOutInitialZeroOrPlus(userPhoneNumber)
+      val formattedNumber = phoneNumberUtil.getCleanNumberAndRemoveZero(userPhoneNumber)
 
       formattedNumber mustBe s"$userPhoneNumber"
     }
