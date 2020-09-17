@@ -38,6 +38,7 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |
         |
         |****************** Script ******************
+        |Copy from here:
         |
         |let eventFire = (MyElement, ElementType) => {
         |    var MyEvent = document.createEvent("MouseEvents");

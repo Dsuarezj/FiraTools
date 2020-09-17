@@ -1,18 +1,47 @@
 @helper.form(action = routes.WhatsappController.generateScript, Symbol("enctype") -> "multipart/form-data") {
-    <h1>Send massive whatsapp message</h1>
-    <p>Enter the message that you want to send, remember to include the word NAME and/or ANY_TEXT if you want personalize message</p>
-    <input type="text" name="messageTemplate">
-    <p>Upload csv file that has 3 columns: phone_number, name, any_text_to_replace</p>
-    <div>
-        <input type="file" name="messageValues">
-    </div>
-        &nbsp;
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/form.css")">
+    </head>
+    <body>
+        <h1>PROGRAMA MILES MENSAJES DE WHATSAPP AUTOMÁTICAMENTE</h1>
+        <ol>
+            <li>
+                Prepara tu archivo CSV de esta forma:
+                <p>
+                    Es muy importante que el archivo respete esta configuración  para que el sistema funcione:
+                </p>
+                <ol>
+                    <li>
+                        El archivo DEBE tener formato CSV:
+                        <p><b>El sistema lee 3 columnas y debes respetar este orden:</b></p>
+                        <ul>
+                            <li><b>Columna A</b> => Números de contacto.</li>
+                            <li><b>Columna B</b> => Nombre del que va a recibir el mensaje</li>
+                            <li><b>Columna C</b>
+                                => Campo variable de personalización (La información que insertes en este campo se reemplazará en el mensaje final).</li>
+                        </ul>
+                        <p><b><i>NOTA: EL CSV NO DEBE TENER HEADERS</i></b></p>
+                        <input type="file" name="messageValues" value="Carga tu archivo" class="button">
+                    </li>
+                </ol>
+            </li>
+            <li>
+                Ingresa tu mensaje teniendo en cuenta:
+                <ul>
+                    <li>Usa la palabra NAME (con mayúsculas) para que el sistema lo reemplace por el nombre de la persona</li>
+                    <li>Usa la palabra ANY_TEXT para que el sistema lo reemplace por lo que personalizaste en la columna C de tu archivo CSV</li>
+                </ul>
+                <p>Ejemplo: <b>Hola NAME tu show favorito es ANY_TEXT</b></p>
+                <p>Ingresa tu mensaje: <input type="text" name="messageTemplate"></p>
+            </li>
+        </ol>
 
-    <div>
-        Select this option if you want us to fix the number for you. Available only for Ecuadorian Numbers <input type="checkbox" name="fixNumber">
-    </div>
-    <p>
-        <input type="submit" value="Click here to finish">
-    </p>
-
+        <div>
+            SOLO DISPONIBLE PARA ECUADOR: Arreglar números automáticamente (si estás en Ecuador y tus números no tienen formato +593 o tienen caracteres especiales, el sistema los arregla por ti).
+            <p>Arreglar números: <input type="checkbox" name="fixNumber"></p>
+        </div>
+        <p>
+            <input type="submit" value="GENERAR ENVÍOS AUTOMÁTICOS" style="padding: 10px">
+        </p>
+    </body>
 }

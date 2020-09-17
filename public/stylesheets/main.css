@@ -7,7 +7,6 @@ caption,th,td{text-align:left;font-weight:normal;}
 form legend{display:none;}
 blockquote:before,blockquote:after,q:before,q:after{content:"";}
 blockquote,q{quotes:"" "";}
-ol,ul{list-style:none;}
 hr{display:none;visibility:hidden;}
 :focus{outline:0;}
 article{}article h1,article h2,article h3,article h4,article h5,article h6{color:#333;font-weight:bold;line-height:1.25;margin-top:1.3em;}
@@ -24,7 +23,7 @@ article p.lead{font-size:18px;font-size:1.8rem;line-height:1.5;}
 article li>p:first-child{margin-top:0;}
 article li>p:last-child{margin-bottom:0;}
 article ul li,article ol li{position:relative;padding:4px 0 4px 14px;}article ul li ol,article ol li ol,article ul li ul,article ol li ul{margin-left:20px;}
-article ul li:before,article ol li:before{position:absolute;top:8px;left:0;content:"►";color:#ccc;font-size:10px;margin-right:5px;}
+article ul li:before,article ol li:before{position:absolute;top:8px;left:0;color:#ccc;font-size:10px;margin-right:5px;}
 article>ol{counter-reset:section;}article>ol li:before{color:#ccc;font-size:13px;}
 article>ol>li{padding:6px 0 4px 20px;counter-reset:chapter;}article>ol>li:before{content:counter(section) ".";counter-increment:section;}
 article>ol>li>ol>li{padding:6px 0 4px 30px;counter-reset:item;}article>ol>li>ol>li:before{content:counter(section) "." counter(chapter);counter-increment:chapter;}
@@ -113,7 +112,7 @@ div.coreteam{position:relative;min-height:80px;border-bottom:1px solid #eee;}div
 div.coreteam a{color:inherit;text-decoration:none;}
 div.coreteam h2{padding-left:70px;border:none;font-size:20px;}
 div.coreteam p{margin-top:5px;padding-left:70px;}
-ul.contributors{padding:0;margin:0;list-style:none;}ul.contributors li{padding:6px 0 !important;margin:0;}ul.contributors li:before{content:' ';}
+ul.contributors{padding:0;margin:0;}ul.contributors li{padding:6px 0 !important;margin:0;}ul.contributors li:before{content:' ';}
 ul.contributors img{width:25px;padding:1px;border:1px solid #ddd;margin-right:5px;vertical-align:middle;}
 ul.contributors a{color:inherit;text-decoration:none;}
 ul.contributors span{font-weight:bold;color:#666;}
@@ -125,3 +124,7 @@ form dl{padding:10px 0;}
 dd.info{color:#888;font-size:12px;}
 dd.error{color:#c00;}
 aside a[href^="http"]:after,.doc a[href^="http"]:after{content:url(/assets/images/external.png);vertical-align:middle;margin-left:5px;}
+
+
+ol{margin-left: 50px;}
+.button{margin: 30px 0 30px 0}

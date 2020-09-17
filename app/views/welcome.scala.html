@@ -11,6 +11,26 @@
     <div id="content" class="wrapper doc">
         <article>
 
+            <h2>Envío de mensajes automáticos de Whatsapp</h2>
+
+            <blockquote>
+                <b>Envía mensajes de Whatsapp en un rango aleatorio de entre 15 segundos y 1 minuto a una lista que proveas.</b>
+            </blockquote>
+            <div>
+                <p>PARA UTILIZARLO NECESITAS:</p>
+                <ol>
+                    <li><b>ESTAR LOGUEADO A WHATSAPP WEB EN TU COMPUTADORA.</b></li>
+                    <li><a href="@routes.Assets.versioned("templates/whatsappTemplate.csv")">Generar un archivo CSV</a></li>
+                    <li>Seguir los pasos que verás en el sistema</li>
+                </ol>
+            </div>
+
+            <form action="@routes.WhatsappController.getView">
+                <input type="submit" value="INICIAR Y SEGUIR LOS PASOS" class="button"/>
+            </form>
+        </article>
+
+        <article>
             <h2>Modify mail templates</h2>
 
             <blockquote>
@@ -33,33 +53,6 @@
             <p>
                 <a href="@routes.HealthCheckController.state">Click here to verify the system state</a>
             </p>
-
-            <h2>Send massive whatsapp message</h2>
-
-            <blockquote>
-                <p>
-                    This will generate a script that will send massive whatsapp message every ~15 seconds.
-                </p>
-                <p>
-                    You will need one file: a csv file with the user information
-
-                    (PHONE_NUMBER, NAME, ANY_TEXT).
-                </p>
-                <p>
-                    The csv file should not have headers and the message should include the keys NAME and ANY_TEXT if you want to replace text.
-                </p>
-
-            </blockquote>
-            <p>
-                <a href="@routes.WhatsappController.getView">Click here to start</a>
-            </p>
-            <p>
-                <a href="@routes.Assets.versioned("templates/whatsappTemplate.csv")">Click here to obtain the CSV template</a>
-            </p>
-            <p>
-                <a href="@routes.Assets.versioned("templates/whatsappMessage.html")">Click here to obtain a sample of a message</a>
-            </p>
-
         </article>
     </div>
 }
