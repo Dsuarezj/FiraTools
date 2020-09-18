@@ -60,7 +60,7 @@ class PhoneNumberUtilTest extends PlaySpec {
     }
     "maintain the zero if they are not at the begin" in {
       val number = Random.nextInt(9999)
-      val userPhoneNumber = s"$number 0$number"
+      val userPhoneNumber = number + "0"
       val phoneNumberUtil = new PhoneNumberUtil()
 
       val formattedNumber = phoneNumberUtil.getCleanNumberAndRemoveZero(userPhoneNumber)

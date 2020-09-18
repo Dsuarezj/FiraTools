@@ -3,7 +3,7 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/form.css")">
     </head>
     <body>
-        <h1>PROGRAMA MILES MENSAJES DE WHATSAPP AUTOMÁTICAMENTE</h1>
+        <h1>PROGRAMA MILES DE MENSAJES DE WHATSAPP AUTOMÁTICAMENTE</h1>
         <ol>
             <li>
                 Prepara tu archivo CSV de esta forma:
@@ -26,12 +26,15 @@
                 </ol>
             </li>
             <li>
-                Ingresa tu mensaje teniendo en cuenta:
+                <p>Ingresa el mensaje que quieres enviar:</p>
+                <p><b>Ejemplo:</b> Hola NAME tu show favorito es ANY_TEXT</p>
+
+                <p>Ten en cuenta:</p>
                 <ul>
-                    <li>Usa la palabra NAME (con mayúsculas) para que el sistema lo reemplace por el nombre de la persona</li>
-                    <li>Usa la palabra ANY_TEXT para que el sistema lo reemplace por lo que personalizaste en la columna C de tu archivo CSV</li>
+                    <li>Pon la palabra NAME (con mayúsculas) en tu mensaje para que el sistema lo reemplace por el nombre de la persona</li>
+                    <li>Pon la palabra ANY_TEXT en tu mensaje para que el sistema lo reemplace por lo que personalizaste en la columna C de tu archivo CSV o dejala en blanco para mandar el mismo contenido</li>
                 </ul>
-                <p>Ejemplo: <b>Hola NAME tu show favorito es ANY_TEXT</b></p>
+
                 <p>Ingresa tu mensaje: <input type="text" name="messageTemplate"></p>
             </li>
         </ol>

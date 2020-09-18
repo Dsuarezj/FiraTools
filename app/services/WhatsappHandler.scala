@@ -38,7 +38,7 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |
         |
         |****************** Script ******************
-        |Copy from here:
+        |Copy from here to the bottom:
         |
         |let eventFire = (MyElement, ElementType) => {
         |    var MyEvent = document.createEvent("MouseEvents");
@@ -66,7 +66,7 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
         |}, 22000 + Math.round(Math.random() * 20000))
         |
         |
-        |
+        |<---- To here
         |
         |
         |""".stripMargin
