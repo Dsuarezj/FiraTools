@@ -51,7 +51,7 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
       fileManager.writeFile(createdEmailPath, emailWithName)
     })
 
-    val zipPath = s"/tmp/$templateId.zip"
+    val zipPath = s"${templateId}.zip"
     fileManager.zip(zipPath, filesPath)
     zipPath
   }
