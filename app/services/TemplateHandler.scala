@@ -8,19 +8,20 @@ import scala.collection.mutable.ListBuffer
 
 class TemplateHandler @Inject()(fileManager: FileManager) {
 
+  private var csvSeparator = ","
+
   def getPreviewOfFiles(templateId: String): String = {
     val variables = readVariables(templateId)
-    val headers = variables.head.split(",").map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
+    verifyCsvSeparator(variables)
+    val headers = variables.head.split(csvSeparator).map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
     val template = readTemplate(templateId)
-    val validHeaders: Array[String] = headers.filter(header => template.contains(header))
 
     var changedTemplates = new ListBuffer[String]()
     var substitutions = collection.mutable.Map[String, String]()
 
     variables.foreach( x => {
-      x.split(",").zipWithIndex.foreach{ case (item, index) => {
-        substitutions += (validHeaders(index) -> item)
-      }
+      x.split(csvSeparator).zipWithIndex.foreach{ case (item, index) =>
+        substitutions += (headers(index) -> item)
       }
       changedTemplates += "\n" + substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))+ "\n"
       changedTemplates += "********************************************************************\n"
@@ -30,24 +31,22 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
 
   def createFilesAndGetZipPath(templateId: String) = {
     val variables = readVariables(templateId)
-    val headers = variables.head.split(",").map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
+    verifyCsvSeparator(variables)
+    val headers = variables.head.split(csvSeparator).map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
     val template = readTemplate(templateId)
-    val validHeaders: Array[String] = headers.filter(header => template.contains(header))
 
     var substitutions = collection.mutable.Map[String, String]()
 
     var filesPath = new ListBuffer[String]()
-    var tagUniqueFile = 0
 
     variables.foreach(variable => {
-        variable.split(",").zipWithIndex.foreach{ case (item, index) => {
-          substitutions += (validHeaders(index) -> item)
+        variable.split(csvSeparator).zipWithIndex.foreach{ case (item, index) => {
+          substitutions += (headers(index) -> item)
         }
       }
-      tagUniqueFile = tagUniqueFile + 1
       val emailWithName = substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))
-      val emailId = substitutions.getOrElse(validHeaders.head, "")
-      val createdEmailPath = s"./target/universal/stage/$emailId-$tagUniqueFile-$templateId.html"
+      val emailId = substitutions.getOrElse(headers.head, "")
+      val createdEmailPath = s"./target/universal/stage/$emailId.html"
       filesPath += createdEmailPath
       fileManager.writeFile(createdEmailPath, emailWithName)
     })
@@ -78,6 +77,10 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
         case _ => List()
       }
     }
+  }
+
+  private def verifyCsvSeparator(variables: List[String]) = {
+    if (!variables.head.contains(csvSeparator)) csvSeparator = ";"
   }
 
 }
