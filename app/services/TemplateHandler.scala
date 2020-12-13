@@ -4,6 +4,7 @@ import utils.FileManager
 import javax.inject.Inject
 
 import scala.collection.mutable.ListBuffer
+import scala.util.Random
 
 
 class TemplateHandler @Inject()(fileManager: FileManager) {
@@ -19,11 +20,11 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
     var changedTemplates = new ListBuffer[String]()
     var substitutions = collection.mutable.Map[String, String]()
 
-    variables.foreach( x => {
-      x.split(csvSeparator).zipWithIndex.foreach{ case (item, index) =>
+    variables.foreach(x => {
+      x.split(csvSeparator).zipWithIndex.foreach { case (item, index) =>
         substitutions += (headers(index) -> item)
       }
-      changedTemplates += "\n" + substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))+ "\n"
+      changedTemplates += "\n" + substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2)) + "\n"
       changedTemplates += "********************************************************************\n"
     })
     changedTemplates.toList.mkString
@@ -40,13 +41,14 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
     var filesPath = new ListBuffer[String]()
 
     variables.foreach(variable => {
-        variable.split(csvSeparator).zipWithIndex.foreach{ case (item, index) => {
-          substitutions += (headers(index) -> item)
-        }
+      variable.split(csvSeparator).zipWithIndex.foreach { case (item, index) => {
+        substitutions += (headers(index) -> item)
+      }
       }
       val emailWithName = substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))
-      val emailId = substitutions.getOrElse(headers.head, "")
-      val createdEmailPath = s"./target/universal/stage/$emailId.html"
+      val emailId = "%s-%s-%d"
+        .format(substitutions.getOrElse(headers.head, ""), substitutions.getOrElse(headers(1), ""), Random.nextInt(20))
+      val createdEmailPath = s"./$emailId.html"
       filesPath += createdEmailPath
       fileManager.writeFile(createdEmailPath, emailWithName)
     })
