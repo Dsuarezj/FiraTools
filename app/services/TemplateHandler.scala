@@ -47,7 +47,7 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
       }
       val emailWithName = substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))
       val emailId = "%s-%s-%d"
-        .format(substitutions.getOrElse(headers.head, ""), substitutions.getOrElse(headers(1), ""), Random.nextInt(20))
+        .format(substitutions.getOrElse(headers.head, ""), Random.nextString(5), Random.nextInt(20))
       val createdEmailPath = s"./$emailId.html"
       filesPath += createdEmailPath
       fileManager.writeFile(createdEmailPath, emailWithName)
