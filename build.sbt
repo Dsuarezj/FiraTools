@@ -5,6 +5,7 @@ version := "1.0-SNAPSHOT"
 val scalaTest: String = "3.0.5"
 val scalaTestPlay: String = "4.0.2"
 
+
 lazy val `FiraTools` = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
@@ -17,8 +18,9 @@ libraryDependencies ++= Seq(jdbc,
   ehcache,
   ws,
   guice,
-  "org.scalatest" %% "scalatest" % scalaTest % "test",
-  "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % "test"
+  "org.scalatest" %% "scalatest" % scalaTest % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
+  "org.mockito"       % "mockito-core" % "3.6.28"     % Test
 )
 
 libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ )

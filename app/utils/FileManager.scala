@@ -13,8 +13,6 @@ class FileManager {
     safeReadCsvFromFile(file) match {
       case Success(lines) => lines
       case Failure(s) => {
-        // TODO: Create a logger class
-        println(s"Error || to read file: $file, message is: $s")
         None
       }
     }
@@ -24,8 +22,6 @@ class FileManager {
     safeReadCsvFromPath(file) match {
       case Success(lines) => lines
       case Failure(s) => {
-        // TODO: Create a logger class
-        println(s"Error || to read file: $file, message is: $s")
         None
       }
     }
@@ -35,8 +31,6 @@ class FileManager {
     safeReadTextFromPath(file) match {
       case Success(lines) => lines
       case Failure(s) => {
-        // TODO: Create a logger class
-        println(s"Error || to read file: $file, message is: $s")
         None
       }
     }
@@ -48,6 +42,7 @@ class FileManager {
   def zip(out: String, files: Iterable[String]) = {
     import java.io.{BufferedInputStream, FileInputStream, FileOutputStream}
     import java.util.zip.{ZipEntry, ZipOutputStream}
+    // TODO: use a pattern to close the streams
 
     val zip = new ZipOutputStream(new FileOutputStream(out))
 

@@ -1,19 +1,18 @@
 package services
 
 import utils.FileManager
-import javax.inject.Inject
 
+import java.util.UUID
+import javax.inject.Inject
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 
 class TemplateHandler @Inject()(fileManager: FileManager) {
 
-  private var csvSeparator = ","
-
   def getPreviewOfFiles(templateId: String): String = {
     val variables = readVariables(templateId)
-    verifyCsvSeparator(variables)
+    val csvSeparator = getCsvSeparator(variables.head)
     val headers = variables.head.split(csvSeparator).map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
     val template = readTemplate(templateId)
 
@@ -32,7 +31,7 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
 
   def createFilesAndGetZipPath(templateId: String) = {
     val variables = readVariables(templateId)
-    verifyCsvSeparator(variables)
+    val csvSeparator = getCsvSeparator(variables.head)
     val headers = variables.head.split(csvSeparator).map(_.trim).map(header => header.replaceAll("\uFEFF", ""))
     val template = readTemplate(templateId)
 
@@ -46,9 +45,9 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
       }
       }
       val emailWithName = substitutions.foldLeft(template)((a, b) => a.replaceAllLiterally(b._1, b._2))
-      val emailId = "%s-%s-%d"
-        .format(substitutions.getOrElse(headers.head, ""), Random.nextInt(20), Random.nextInt(20))
-      val createdEmailPath = s"./$emailId.html"
+      val emailUniqueId = "%s-%s"
+        .format(substitutions.getOrElse(headers.head, ""), UUID.randomUUID())
+      val createdEmailPath = s"./$emailUniqueId.html"
       filesPath += createdEmailPath
       fileManager.writeFile(createdEmailPath, emailWithName)
     })
@@ -81,8 +80,9 @@ class TemplateHandler @Inject()(fileManager: FileManager) {
     }
   }
 
-  private def verifyCsvSeparator(variables: List[String]) = {
-    if (!variables.head.contains(csvSeparator)) csvSeparator = ";"
+  def getCsvSeparator(headers: String) = {
+    val nonAlphanumeric = "[^a-zA-Z\\d\\s\uFEFF]".r
+    nonAlphanumeric.findFirstIn(headers).getOrElse(";")
   }
 
 }

@@ -1,10 +1,11 @@
 package utils
 
+import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 
 import scala.util.Random
 
-class PhoneNumberUtilTest extends PlaySpec {
+class PhoneNumberUtilTest extends PlaySpec with MockitoSugar{
   "Add country code" must {
     "return the same number if starts with the same country code" in {
       val countryCode = Random.nextInt(999)
