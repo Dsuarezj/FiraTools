@@ -2,10 +2,10 @@ package controllers
 
 import java.nio.file.Paths
 import java.util.UUID
-
 import javax.inject._
 import play.api.i18n.I18nSupport
 import play.api.libs.Files
+import play.api.libs.json.Json
 import play.api.mvc._
 import services.TemplateHandler
 
@@ -32,6 +32,28 @@ class TemplateController @Inject()(cc: ControllerComponents,
         BadRequest("Could not upload file")
       }
   }
+
+  def uploadAll = Action(parse.multipartFormData) { request =>
+
+    request.body
+      .file("template")
+      .map { template =>
+        val templateId = UUID.randomUUID().toString
+        template.ref.copyTo(
+          Paths.get(s"./$templateId.html"),
+          replace = true)
+        request.body
+          .file("variables")
+          .map { template =>
+            template.ref.copyTo(Paths.get(s"./$templateId.csv"), replace = true)
+          }
+        Ok(Json.obj("fileId" -> templateId))
+      }
+      .getOrElse {
+        BadRequest("Could not upload file")
+      }
+  }
+
 
   // TODO: refactor to use only one method to upload file, this will be more easy to manage when we have the FE using React
   def uploadVariables(templateId: String): Action[MultipartFormData[Files.TemporaryFile]] = Action(parse.multipartFormData) { request =>

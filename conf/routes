@@ -16,12 +16,17 @@ POST        /whatsAppsSender/generateScript                               contro
 POST        /changeVariablesOfTemplate/uploadTemplate                     controllers.TemplateController.uploadTemplate
 
 +nocsrf
+POST        /uploadCombinedGeneratorFiles                                 controllers.TemplateController.uploadAll
+
++nocsrf
 POST        /changeVariablesOfTemplate/uploadVariables/:templateId        controllers.TemplateController.uploadVariables(templateId)
 
 +nocsrf
 POST        /changeVariablesOfTemplate/generateFiles/:templateId          controllers.TemplateController.generateFiles(templateId)
 
 +nocsrf
+GET        /changeVariablesOfTemplate/generateFiles/:templateId          controllers.TemplateController.generateFiles(templateId)
+
 GET         /changeVariablesOfTemplate/previewFiles/:templateId           controllers.TemplateController.previewFiles(templateId)
 
 GET         /changeVariablesOfTemplate/home                               controllers.TemplateController.getView
