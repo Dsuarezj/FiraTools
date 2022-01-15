@@ -38,19 +38,13 @@ class TemplateController @Inject()(cc: ControllerComponents,
     request.body
       .file("template")
       .map { template =>
-        val ref = template.ref
-        println("This is the html file" + ref)
-        println("This is the html file" + template.filename)
-        println("This is the html file" + template.fileSize)
         val templateId = UUID.randomUUID().toString
-        ref.copyTo(
+        template.ref.copyTo(
           Paths.get(s"./$templateId.html"),
           replace = true)
         request.body
           .file("variables")
           .map { template =>
-            println("This is the csv file" + template.filename)
-            println("This is the csv file" + template.fileSize)
             template.ref.copyTo(Paths.get(s"./$templateId.csv"), replace = true)
           }
         Ok(Json.obj("fileId" -> templateId))
