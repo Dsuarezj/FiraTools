@@ -27,4 +27,18 @@ class WhatsappController @Inject()(cc: ControllerComponents,
         BadRequest("Could not upload file")
       }
   }
+
+  def generateJson() = Action(parse.multipartFormData) { request =>
+
+    val messageTemplate = request.body.dataParts.getOrElse("messageTemplate", Seq("")).head
+    val hasToFixNumbers = request.body.dataParts.getOrElse("fixNumber", Seq("")).head
+    request.body
+      .file("messageValues")
+      .map { template =>
+        Ok(whatsappHandler.getJson(template.ref, messageTemplate, hasToFixNumbers))
+      }
+      .getOrElse {
+        BadRequest("Could not upload file")
+      }
+  }
 }

@@ -16,6 +16,13 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
     }
   }
 
+  def getJson(file: File, message: String = "", hasToFixNumbers: String = ""): String = {
+    fileManager.readCsvFile(file) match {
+      case Some(lines) => createJson(lines, message, hasToFixNumbers)
+      case _ => ""
+    }
+  }
+
   private def getScript(messagesData: List[String], messageTemplate: String = "", hasToFixNumbers: String = ""): String = {
     val whatsappLinks = createLinks(messagesData, messageTemplate, hasToFixNumbers)
 
@@ -73,8 +80,18 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
   }
 
   private def createLinks(messagesData: List[String], messageTemplate: String, hasToFixNumbers: String): List[String] = {
+    val messagesBuffer: ListBuffer[(String, String)] = prepareMessages(messagesData, messageTemplate)
+    getLinkForMessage(messagesBuffer)
+  }
+
+  private def createJson(messagesData: List[String], messageTemplate: String = "", hasToFixNumbers: String = ""): String = {
+    val messagesBuffer: ListBuffer[(String, String)] = prepareMessages(messagesData, messageTemplate)
+    getJsonForMessage(messagesBuffer)
+  }
+
+
+  private def prepareMessages(messagesData: Nothing, messageTemplate: Nothing): ListBuffer[(String, String)] = {
     val messagesBuffer = new ListBuffer[(String, String)]()
-    val whatsappLinks = new ListBuffer[String]()
     val substitutions = collection.mutable.Map[String, String]()
     val PHONE_NUMBER = "PHONE_NUMBER"
     val acceptedKeys = List(PHONE_NUMBER, "NAME", "ANY_TEXT")
@@ -84,14 +101,27 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
       }
       val messageToBeSent = substitutions.foldLeft(messageTemplate)((a, b) => a.replaceAllLiterally(b._1, b._2)) + "\", "
       val userPhoneNumber = substitutions.getOrElse(PHONE_NUMBER, "")
-      if (hasToFixNumbers.contains("on")){
-        messagesBuffer.append((phoneNumberUtil.getEcuadorianNumber(userPhoneNumber),messageToBeSent))
+      if (hasToFixNumbers.contains("on")) {
+        messagesBuffer.append((phoneNumberUtil.getEcuadorianNumber(userPhoneNumber), messageToBeSent))
       } else {
         messagesBuffer.append((userPhoneNumber, messageToBeSent))
       }
     })
+    messagesBuffer
+  }
+
+  private def getLinkForMessage(messagesBuffer: ListBuffer[(String, String)]): List = {
+    val whatsappLinks = new ListBuffer[String]()
     messagesBuffer.toList.map(message => {
       whatsappLinks += "\"" + s"https://web.whatsapp.com/send?phone=${message._1}&text=${message._2}"
+    })
+    whatsappLinks.toList
+  }
+
+  private def getJsonForMessage(messagesBuffer: ListBuffer[(String, String)]): List = {
+    val whatsappLinks = new ListBuffer[WhatsappMessage]()
+    messagesBuffer.toList.map(message => {
+      whatsappLinks += new WhatsappMessage(message._1,message._2)
     })
     whatsappLinks.toList
   }
