@@ -1,10 +1,12 @@
 package services
 
+import models.WhatsappMessage
+
 import java.io.File
-
 import utils.{FileManager, PhoneNumberUtil}
-import javax.inject.Inject
 
+import javax.inject.Inject
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 
@@ -16,6 +18,20 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
     }
   }
 
+  def generateJson(file: File, message: String = "", hasToFixNumbers: String = ""): List[WhatsappMessage] = {
+    fileManager.readCsvFile(file) match {
+      case Some(lines) => getJson(lines, message, hasToFixNumbers)
+      case _ => List()
+    }
+  }
+
+  private def getJson(messagesData: List[String], messageTemplate: String = "", hasToFixNumbers: String = ""): List[WhatsappMessage] = {
+    val whatsappLinks = new ListBuffer[WhatsappMessage]()
+    getMessagesBuffer(messagesData, messageTemplate, hasToFixNumbers).toList.map(message => {
+      whatsappLinks += WhatsappMessage(message._1, message._2)
+    })
+    whatsappLinks.toList
+  }
   private def getScript(messagesData: List[String], messageTemplate: String = "", hasToFixNumbers: String = ""): String = {
     val whatsappLinks = createLinks(messagesData, messageTemplate, hasToFixNumbers)
 
@@ -73,8 +89,16 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
   }
 
   private def createLinks(messagesData: List[String], messageTemplate: String, hasToFixNumbers: String): List[String] = {
-    val messagesBuffer = new ListBuffer[(String, String)]()
     val whatsappLinks = new ListBuffer[String]()
+    val messagesBuffer: Seq[(String, String)] = getMessagesBuffer(messagesData, messageTemplate, hasToFixNumbers, "\", ")
+    messagesBuffer.toList.map(message => {
+      whatsappLinks += "\"" + s"https://web.whatsapp.com/send?phone=${message._1}&text=${message._2}"
+    })
+    whatsappLinks.toList
+  }
+
+  private def getMessagesBuffer(messagesData: List[String], messageTemplate: String, hasToFixNumbers: String, extraMessage: String = ""): Seq[(String, String)] = {
+    val messagesBuffer = new ListBuffer[(String, String)]()
     val substitutions = collection.mutable.Map[String, String]()
     val PHONE_NUMBER = "PHONE_NUMBER"
     val acceptedKeys = List(PHONE_NUMBER, "NAME", "ANY_TEXT")
@@ -82,17 +106,14 @@ class WhatsappHandler @Inject()(fileManager: FileManager, phoneNumberUtil: Phone
       messageInfo.split(",").zipWithIndex.foreach {
         case (item, index) => substitutions += (acceptedKeys(index) -> item)
       }
-      val messageToBeSent = substitutions.foldLeft(messageTemplate)((a, b) => a.replaceAllLiterally(b._1, b._2)) + "\", "
+      val messageToBeSent = substitutions.foldLeft(messageTemplate)((a, b) => a.replaceAllLiterally(b._1, b._2)) + extraMessage
       val userPhoneNumber = substitutions.getOrElse(PHONE_NUMBER, "")
-      if (hasToFixNumbers.contains("on")){
-        messagesBuffer.append((phoneNumberUtil.getEcuadorianNumber(userPhoneNumber),messageToBeSent))
+      if (hasToFixNumbers.contains("on")) {
+        messagesBuffer.append((phoneNumberUtil.getEcuadorianNumber(userPhoneNumber), messageToBeSent))
       } else {
         messagesBuffer.append((userPhoneNumber, messageToBeSent))
       }
     })
-    messagesBuffer.toList.map(message => {
-      whatsappLinks += "\"" + s"https://web.whatsapp.com/send?phone=${message._1}&text=${message._2}"
-    })
-    whatsappLinks.toList
+    messagesBuffer
   }
 }

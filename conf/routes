@@ -13,6 +13,9 @@ GET         /whatsAppsSender/home                                         contro
 POST        /whatsAppsSender/generateScript                               controllers.WhatsappController.generateScript()
 
 +nocsrf
+POST        /whatsAppsSender/generateJson                                 controllers.WhatsappController.generateJson()
+
++nocsrf
 POST        /changeVariablesOfTemplate/uploadTemplate                     controllers.TemplateController.uploadTemplate
 
 +nocsrf
