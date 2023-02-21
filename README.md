@@ -5,8 +5,7 @@ If you are making a fair, you might need tools that help do this more quick and 
 ## Pre requirements 
 
 - Install sbt
-- Install play  
-- Install java
+- Install java 8 (use jenv)
 
 ## Running Locally  
 
