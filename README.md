@@ -4,7 +4,6 @@ If you are making a fair, you might need tools that help do this more quick and 
 
 ## Pre requirements 
 
-- Install [Heroku Toolbelt](https://toolbelt.heroku.com/).
 - Install sbt
 - Install play  
 - Install java
@@ -12,25 +11,23 @@ If you are making a fair, you might need tools that help do this more quick and 
 ## Running Locally  
 
 ```sh
-git clone https://github.com/Dsuarezj/FiraTools.git
+git clone git@github.com:Dsuarezj/FiraTools.git
 cd FiraTools
 sbt compile stage
-heroku local
+sbt run
 ```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Your app should now be running on [localhost:9000](http://localhost:9000/).
 
 ## Deploying to Heroku
 
 * For a new deploy
 
     ```sh
-    heroku create
-    git push heroku master
-    heroku open
+    heroku is dead
     ```
 * For the existing one
 
     ```
-    heroku git:remote -a fira-tool
+    :(
     ```

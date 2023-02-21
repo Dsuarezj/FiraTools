@@ -12,7 +12,7 @@ class ErrorHandler extends HttpErrorHandler {
   def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
     Future.successful({
       print("A client error occurred: %s | Request uri: %s | Method: %s".format(message, request.uri, request.method))
-      Status(statusCode)("Lo sentimos! un error... reportalo! 🔥")
+      Status(statusCode)("An error occurred, please contact the devs!!!! 💔🔥")
     })
   }
 
